@@ -1,0 +1,177 @@
+from tkinter import *
+
+
+def conversion(number, mode, outmode):
+    global out
+    if mode == 'hex':
+        if outmode == 'hex':
+            out = number
+
+        elif outmode == 'dec':
+            out = int(number, 16)
+
+        else:
+            number = int(number, 16)
+            out = bin(number)
+
+    elif mode == 'dec':
+
+        number = int(number)
+
+        if outmode == 'hex':
+            out = hex(number)
+
+        elif outmode == 'dec':
+            out = number
+
+        else:
+            out = bin(number)
+
+    else:
+        if outmode == 'hex':
+            number = int(number, 2)
+            out = hex(number)
+
+        elif outmode == 'dec':
+            out = int(number, 2)
+
+        else:
+            out = number
+
+
+# Key Press Functions
+def click():
+    entered_number = entry.get() # Collect number from text box
+    output.delete(0.0, END) # Clear text box
+    global out
+    conversion(entered_number, mode, outmode)
+    out = str(out)
+    output.insert(END, out)
+
+def hex_in():
+    global mode
+
+    if hex_btn_in.config('relief')[-1] == 'sunken':
+        hex_btn_in.config(relief='raised')
+
+    else:
+        hex_btn_in.config(relief='sunken')
+        dec_btn_in.config(relief='raised')
+        bin_btn_in.config(relief='raised')
+        hex_btn_out.config(relief='raised')
+        mode = 'hex'
+
+def dec_in():
+    global mode
+
+    if dec_btn_in.config('relief')[-1] == 'sunken':
+        dec_btn_in.config(relief='raised')
+
+    else:
+        dec_btn_in.config(relief='sunken')
+        bin_btn_in.config(relief='raised')
+        hex_btn_in.config(relief='raised')
+        dec_btn_out.config(relief='raised')
+        mode = 'dec'
+
+def bin_in():
+    global mode
+
+    if bin_btn_in.config('relief')[-1] == 'sunken':
+        bin_btn_in.config(relief='raised')
+
+    else:
+        bin_btn_in.config(relief='sunken')
+        dec_btn_in.config(relief='raised')
+        hex_btn_in.config(relief='raised')
+        bin_btn_out.config(relief='raised')
+        mode = 'bin'
+
+def hex_out():
+    global outmode
+
+    if hex_btn_out.config('relief')[-1] == 'sunken':
+        hex_btn_out.config(relief='raised')
+
+    else:
+        hex_btn_out.config(relief='sunken')
+        dec_btn_out.config(relief='raised')
+        bin_btn_out.config(relief='raised')
+        outmode = 'hex'
+
+    if hex_btn_in.config('relief')[-1] == 'sunken':
+        hex_btn_out.config(relief='raised')
+
+def dec_out():
+    global outmode
+
+    if dec_btn_out.config('relief')[-1] == 'sunken':
+        dec_btn_out.config(relief='raised')
+
+    else:
+        dec_btn_out.config(relief='sunken')
+        bin_btn_out.config(relief='raised')
+        hex_btn_out.config(relief='raised')
+        outmode = 'dec'
+
+    if dec_btn_in.config('relief')[-1] == 'sunken':
+        dec_btn_out.config(relief='raised')
+
+def bin_out():
+    global outmode
+
+    if bin_btn_out.config('relief')[-1] == 'sunken':
+        bin_btn_out.config(relief='raised')
+
+    else:
+        bin_btn_out.config(relief='sunken')
+        dec_btn_out.config(relief='raised')
+        hex_btn_out.config(relief='raised')
+        outmode = 'bin'
+
+    if bin_btn_in.config('relief')[-1] == 'sunken':
+        bin_btn_out.config(relief='raised')
+
+## Main:
+window = Tk()
+window.title('Hexadecimal/Decimal/Binary Converter')
+
+# Create labels
+Label(window, text='Enter the input mode:').grid(row=0, column=0, sticky=W)
+Label(window, text='Enter your number:').grid(row=2, column=0, sticky=W)
+Label(window, text='Enter your output mode:').grid(row=5, column=0, sticky=W)
+Label(window, text='Output:').grid(row=7, column=0, sticky=W)
+
+# Create number entry box
+entry = Entry(window, width=20, bg='light green')
+entry.grid(row=3, column=0, sticky=W)
+
+# Add input boxes: hex, bin, dec
+hex_btn_in = Button(text='Hexadecimal', width=12, relief='raised', command=hex_in)
+hex_btn_in.grid(row=1, column=0, sticky=W)
+
+dec_btn_in = Button(text='Decimal', width=12, relief='raised', command=dec_in)
+dec_btn_in.grid(row=1, column=1, sticky=W)
+
+bin_btn_in = Button(text='Binary', width=12, relief='raised', command=bin_in)
+bin_btn_in.grid(row=1, column=2, sticky=W)
+
+# Add output boxes: hex, bin, dec
+hex_btn_out = Button(text='Hexadecimal', width=12, relief='raised', command=hex_out)
+hex_btn_out.grid(row=6, column=0, sticky=W)
+
+dec_btn_out = Button(text='Decimal', width=12, relief='raised', command=dec_out)
+dec_btn_out.grid(row=6, column=1, sticky=W)
+
+bin_btn_out = Button(text='Binary', width=12, relief='raised', command=bin_out)
+bin_btn_out.grid(row=6, column=2, sticky=W)
+
+# Add a submit button
+Button(window, text='Submit', width=5, command=click).grid(row=4, column=0, sticky=W)
+
+# Create a text box for output
+output = Text(window, width=36, height=6, wrap=WORD, bg='light green')
+output.grid(row=8, column=0, columnspan=2, sticky=W)
+
+## Run mainloop:
+window.mainloop()
